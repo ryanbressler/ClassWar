@@ -17,9 +17,17 @@ ptm <- proc.time()
 
 rf <- randomForest(x,as.factor(y[,1]))
 
-print("Training:", proc.time() - ptm)
+print(cat("Total training time (seconds): ",(proc.time()-ptm)[3],"\n"))
+
+targets = colnames(test)==target
+
+y = test[targets]
+x = test[!targets]
+
+pred = predict(rf,x)
+
+print(cat("Error: ", 1.0 - (sum(pred[y==true])/sum(y==true)+sum(!pred[y==false])/sum(y==false))/2.0)
 
 
 
-browse()
 

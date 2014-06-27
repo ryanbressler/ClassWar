@@ -15,7 +15,7 @@ x = train[!targets]
 
 ptm <- proc.time()
 
-rf <- randomForest(x,as.factor(y[,1]))
+rf <- randomForest(x,as.factor(y[,1]),ntree=100)
 
 print(cat("Total training time (seconds): ",(proc.time()-ptm)[3],"\n"))
 

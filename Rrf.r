@@ -6,6 +6,17 @@ args<-(commandArgs(TRUE))
 
 train<-read.arff(args[[1]])
 test<-read.arff(args[[2]])
+
+for(i in 1:length(train)){
+	if (is.factor(train[,i])){
+		if (nlevels(train[,i])>nlevels(test[,i])){
+			test[,i]=factor(test[,i],levels=levels(train[,i]))
+		}else{
+			train[,i]=factor(train[,i],levels=levels(test[,i]))
+		}
+	}
+}
+
 target<-args[[3]]
 
 targets = colnames(train)==target
@@ -30,11 +41,20 @@ for(i in 1:length(train)){if(length(unique(train[,i]))==1){cat(colnames(train)[i
 # }
 
 y = test[targets]
-x = test[!targets]
+xt = test[!targets]
 
-pred = predict(rf,x)
+# testclass = sapply(xt, class)
+# trainclass = sapply(x, class)
 
-cat("Error: ", 1.0 - (sum(pred[y==true])/sum(y==true)+sum(!pred[y==false])/sum(y==false))/2.0, "\n")
+# for(i in 1:length(xt)){
+# 	if (trainclass[i]!=testclass[i] || nlevels(x[,i])!=nlevels(xt[,i])){
+# 		cat(colnames(x)[i],colnames(xt)[i],trainclass[i],testclass[i],trainclass[i]!=testclass[i],nlevels(x[,i]),nlevels(xt[,i]),"\n")
+# 	}
+# }
+
+pred = predict(rf,xt)
+
+cat("Error: ", 1.0 - (sum("true"==pred[y=="true"])/sum(y=="true")+sum("false"==pred[y=="false"])/sum(y=="false"))/2.0, "\n")
 
 Sys.sleep(".1")
 

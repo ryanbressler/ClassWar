@@ -1,6 +1,6 @@
 
 library("foreign")
-library("randomForest")
+library("parallelRandomForest")
 
 args<-(commandArgs(TRUE))
 

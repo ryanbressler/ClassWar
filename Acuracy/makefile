@@ -12,6 +12,11 @@ BenchCFHet : train_0.fm
 	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500  > CFHet_fold_$${number}.out; \
 	done 
 
+BenchCFTrans : train_0.fm
+	for number in {0..9} ; do \
+	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500 -trans_unlabeled false > CFTrans_fold_$${number}.out; \
+	done
+
 BenchCFBal : train_0.fm
 	for number in {0..9} ; do \
 	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500 -balance > CFBal_fold_$${number}.out; \
@@ -73,7 +78,7 @@ BenchRFACE : train_0.fm
 parse : CFHet_fold_0.out
 	python parse_results.py
 
-all : BenchCFNum BenchCFHet BenchSKL BenchRRF BenchPRRF BenchRFACE BenchCFBal BenchCFAce BenchCFOOB BenchCFAceOOB BenchCFWRF BenchCFWRFAce parse
+all : BenchCFNum BenchCFHet BenchSKL BenchCFBal BenchCFAce BenchCFOOB BenchCFAceOOB BenchCFWRF BenchCFWRFAce BenchRRF BenchPRRF BenchRFACE parse
 
 clean :
 	rm *.out

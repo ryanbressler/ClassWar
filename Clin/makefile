@@ -9,7 +9,17 @@ folds train_0.fm : $(data)
 
 BenchCFHet : train_0.fm
 	for number in {0..9} ; do \
-	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500  > CFHet_fold_$${number}.out; \
+	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500 > CFHet_fold_$${number}.out; \
+	done
+
+BenchCFTrans : train_0.fm
+	for number in {0..9} ; do \
+	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500 -trans_unlabeled false > CFTrans_fold_$${number}.out; \
+	done
+
+BenchCFJung : train_0.fm
+	for number in {0..9} ; do \
+	    growforest -train train_$${number}.fm -target $(target)  -test test_$${number}.fm -nTrees 500 -jungle > CFJung_fold_$${number}.out; \
 	done
 
 BenchCFNum : train_0.fm

@@ -30,6 +30,9 @@ parse : CFHet_fold_0.out CFNum_fold_0.out SKL_fold_0.out
 
 all : BenchCFNum BenchCFHet BenchSKL BenchRRF parse
 
+anon.fm : 
+	toafm -anontarget $(target) -data $(data) -out anon.fm
+
 clean :
 	rm *.out
 	rm train_*.fm*
